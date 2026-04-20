@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧图书馆建设管理系统</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Page -->
+        <div id="login-page" class="page">
+            <div class="login-container">
+                <h1>智慧图书馆管理系统</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" name="username" required placeholder="请输入用户名">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" name="password" required placeholder="请输入密码">
+                    </div>
+                    <button type="submit" class="btn btn-primary">登录</button>
+                </form>
+                <div id="login-error" class="error-message"></div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard -->
+        <div id="dashboard-page" class="page hidden">
+            <nav class="navbar">
+                <div class="nav-brand">智慧图书馆</div>
+                <div class="nav-links">
+                    <a href="#" data-page="books" class="nav-link active">图书管理</a>
+                    <a href="#" data-page="borrow" class="nav-link">借阅管理</a>
+                    <a href="#" data-page="devices" class="nav-link">设备管理</a>
+                    <a href="#" data-page="reservations" class="nav-link">预约管理</a>
+                    <a href="#" data-page="users" class="nav-link">用户管理</a>
+                </div>
+                <div class="nav-user">
+                    <span id="user-info"></span>
+                    <button id="logout-btn" class="btn btn-small">退出</button>
+                </div>
+            </nav>
+
+            <main class="main-content">
+                <!-- Books Section -->
+                <section id="books-section" class="section active">
+                    <div class="section-header">
+                        <h2>图书管理</h2>
+                        <button id="add-book-btn" class="btn btn-primary">添加图书</button>
+                    </div>
+                    <div class="filters">
+                        <input type="text" id="book-search" placeholder="搜索书名或作者..." class="search-input">
+                        <select id="book-category-filter">
+                            <option value="">全部分类</option>
+                            <option value="Technology">技术</option>
+                            <option value="Computer Science">计算机科学</option>
+                            <option value="AI">人工智能</option>
+                            <option value="Programming">编程</option>
+                        </select>
+                    </div>
+                    <div id="books-loading" class="loading hidden">加载中...</div>
+                    <div id="books-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>书名</th>
+                                    <th>作者</th>
+                                    <th>ISBN</th>
+                                    <th>分类</th>
+                                    <th>总数量</th>
+                                    <th>可借数量</th>
+                                    <th>位置</th>
+                                    <th>价格</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="books-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Borrow Records Section -->
+                <section id="borrow-section" class="section hidden">
+                    <div class="section-header">
+                        <h2>借阅管理</h2>
+                        <button id="add-borrow-btn" class="btn btn-primary">新增借阅</button>
+                    </div>
+                    <div class="filters">
+                        <select id="borrow-status-filter">
+                            <option value="">全部状态</option>
+                            <option value="Borrowed">借阅中</option>
+                            <option value="Returned">已归还</option>
+                        </select>
+                    </div>
+                    <div id="borrow-loading" class="loading hidden">加载中...</div>
+                    <div id="borrow-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>用户</th>
+                                    <th>图书</th>
+                                    <th>借阅日期</th>
+                                    <th>应还日期</th>
+                                    <th>归还日期</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="borrow-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Devices Section -->
+                <section id="devices-section" class="section hidden">
+                    <div class="section-header">
+                        <h2>智能设备管理</h2>
+                        <button id="add-device-btn" class="btn btn-primary">添加设备</button>
+                    </div>
+                    <div id="devices-loading" class="loading hidden">加载中...</div>
+                    <div id="devices-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>设备名称</th>
+                                    <th>类型</th>
+                                    <th>位置</th>
+                                    <th>状态</th>
+                                    <th>最后维护</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="devices-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reservations Section -->
+                <section id="reservations-section" class="section hidden">
+                    <div class="section-header">
+                        <h2>预约管理</h2>
+                        <button id="add-reservation-btn" class="btn btn-primary">新增预约</button>
+                    </div>
+                    <div id="reservations-loading" class="loading hidden">加载中...</div>
+                    <div id="reservations-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>用户</th>
+                                    <th>图书</th>
+                                    <th>预约日期</th>
+                                    <th>过期日期</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservations-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users-section" class="section hidden">
+                    <div class="section-header">
+                        <h2>用户管理</h2>
+                        <button id="add-user-btn" class="btn btn-primary">添加用户</button>
+                    </div>
+                    <div id="users-loading" class="loading hidden">加载中...</div>
+                    <div id="users-table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>用户名</th>
+                                    <th>邮箱</th>
+                                    <th>角色</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Template -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">标题</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-content"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-cancel">取消</button>
+                <button class="btn btn-primary modal-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

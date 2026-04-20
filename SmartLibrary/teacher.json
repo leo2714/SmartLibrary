@@ -1,0 +1,16 @@
+{
+  "teachers": [
+    {
+      "username": "admin",
+      "password": "123456",
+      "email": "admin@library.com",
+      "role": "Admin"
+    },
+    {
+      "username": "teacher1",
+      "password": "123456",
+      "email": "teacher1@school.com",
+      "role": "Teacher"
+    }
+  ]
+}
