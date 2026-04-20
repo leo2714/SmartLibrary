@@ -734,7 +734,10 @@ async function loadUsers() {
             row.innerHTML = `
                 <td>${user.id}</td>
                 <td>${escapeHtml(user.username)}</td>
+                <td>${escapeHtml(user.realName || '-')}</td>
                 <td>${escapeHtml(user.email)}</td>
+                <td>${escapeHtml(user.department || '-')}</td>
+                <td>${escapeHtml(user.position || '-')}</td>
                 <td>${getRoleName(user.role)}</td>
                 <td>${formatDate(user.createdAt)}</td>
                 <td class="actions">
@@ -786,6 +789,18 @@ async function showUserModal(id = null) {
                 <input type="email" name="email" value="${user?.email || ''}" required>
             </div>
             <div class="form-group">
+                <label>姓名</label>
+                <input type="text" name="realName" value="${user?.realName || ''}">
+            </div>
+            <div class="form-group">
+                <label>院系</label>
+                <input type="text" name="department" value="${user?.department || ''}">
+            </div>
+            <div class="form-group">
+                <label>职务</label>
+                <input type="text" name="position" value="${user?.position || ''}">
+            </div>
+            <div class="form-group">
                 <label>角色</label>
                 <select name="role">
                     <option value="User" ${user?.role === 'User' ? 'selected' : ''}>普通用户</option>
@@ -808,6 +823,9 @@ async function showUserModal(id = null) {
         const data = {
             email: formData.get('email'),
             role: formData.get('role'),
+            realName: formData.get('realName') || null,
+            department: formData.get('department') || null,
+            position: formData.get('position') || null,
             password: formData.get('password') || undefined
         };
         

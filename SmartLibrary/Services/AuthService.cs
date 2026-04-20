@@ -84,6 +84,9 @@ public class AuthService : IAuthService
                 Username = u.Username,
                 Email = u.Email,
                 Role = u.Role,
+                Department = u.Department,
+                Position = u.Position,
+                RealName = u.RealName,
                 CreatedAt = u.CreatedAt
             })
             .ToListAsync();
@@ -99,6 +102,9 @@ public class AuthService : IAuthService
 
         existing.Email = user.Email;
         existing.Role = user.Role;
+        existing.Department = user.Department;
+        existing.Position = user.Position;
+        existing.RealName = user.RealName;
         
         if (!string.IsNullOrEmpty(user.Password))
         {

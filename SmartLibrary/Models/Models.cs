@@ -7,6 +7,9 @@ public class User
     public string Password { get; set; } = string.Empty;
     public string Role { get; set; } = "User"; // Admin, Teacher, Student
     public string Email { get; set; } = string.Empty;
+    public string? Department { get; set; } // 院系
+    public string? Position { get; set; }   // 职务
+    public string? RealName { get; set; }   // 姓名
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
 

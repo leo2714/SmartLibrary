@@ -1,72 +1,35 @@
 ```
-# Build results
+# Build artifacts
 bin/
 obj/
-out/
+*.dll
+*.exe
+*.pdb
+*.config
+*.runtimeconfig.json
 
-# User-specific files
-.vs/
-.vscode/
-*.userprefs
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
+# Dependencies
+packages/
+node_modules/
 
-# Environment specific settings
+# Logs
+*.log
+
+# Environment
 .env
 .env.local
 *.env.*
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
-
-# Log files
-*.log
-
-# Temporary files
+# Editors
+.vscode/
+.idea/
+*.swp
 *.tmp
-*.temp
-*.bak
 
-# Dependencies
-node_modules/
-packages/
+# OS
+.DS_Store
+Thumbs.db
 
-# Test results
-TestResults/
-
-# Publish artifacts
+# ASP.NET Core
 publish/
-
-# Compression
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
 ```

@@ -87,43 +87,61 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
     var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
     
     // Ensure database is created
     await context.Database.EnsureCreatedAsync();
     
     // Seed data if empty
-    await DbInitializer.SeedDataAsync(context, config);
+    await DbInitializer.SeedDataAsync(context, config, env);
 }
 
 app.Run();
 
 public static class DbInitializer
 {
-    public static async Task SeedDataAsync(LibraryDbContext context, IConfiguration config)
+    public static async Task SeedDataAsync(LibraryDbContext context, IConfiguration config, IHostEnvironment env)
     {
         if (!context.Users.Any())
         {
-            // Create admin user from teacher.json concept
+            // Create admin user
             var adminUser = new User
             {
                 Username = "admin",
                 Password = HashPassword("123456"),
                 Email = "admin@library.com",
-                Role = "Admin"
+                Role = "Admin",
+                RealName = "系统管理员"
             };
             context.Users.Add(adminUser);
             await context.SaveChangesAsync();
 
-            // Add sample teachers
-            var teacher1 = new User
+            // Load teachers from teacher.json
+            var teacherJsonPath = Path.Combine(env.ContentRootPath, "teacher.json");
+            if (File.Exists(teacherJsonPath))
             {
-                Username = "teacher1",
-                Password = HashPassword("123456"),
-                Email = "teacher1@school.com",
-                Role = "Teacher"
-            };
-            context.Users.Add(teacher1);
-            await context.SaveChangesAsync();
+                var json = await File.ReadAllTextAsync(teacherJsonPath);
+                var teachers = System.Text.Json.JsonSerializer.Deserialize<List<TeacherImport>>(json);
+                
+                if (teachers != null)
+                {
+                    foreach (var t in teachers)
+                    {
+                        var user = new User
+                        {
+                            Username = t.username ?? string.Empty,
+                            Password = HashPassword("123456"), // Default password
+                            Email = $"{t.username}@school.com",
+                            Role = "Teacher",
+                            RealName = t.姓名,
+                            Department = t.院系,
+                            Position = t.职务
+                        };
+                        context.Users.Add(user);
+                    }
+                    await context.SaveChangesAsync();
+                }
+            }
 
             // Add sample students
             var student1 = new User
@@ -131,9 +149,21 @@ public static class DbInitializer
                 Username = "student1",
                 Password = HashPassword("123456"),
                 Email = "student1@school.com",
-                Role = "Student"
+                Role = "Student",
+                RealName = "学生一"
             };
             context.Users.Add(student1);
+            await context.SaveChangesAsync();
+            
+            var student2 = new User
+            {
+                Username = "student2",
+                Password = HashPassword("123456"),
+                Email = "student2@school.com",
+                Role = "Student",
+                RealName = "学生二"
+            };
+            context.Users.Add(student2);
             await context.SaveChangesAsync();
         }
 
@@ -177,4 +207,14 @@ public static class DbInitializer
         var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
         return Convert.ToBase64String(bytes);
     }
+}
+
+// Helper class for importing teacher data from JSON
+public class TeacherImport
+{
+    public int? 序号 { get; set; }
+    public string? 院系 { get; set; }
+    public string? 职务 { get; set; }
+    public string? 姓名 { get; set; }
+    public string? username { get; set; }
 }
