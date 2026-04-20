@@ -1,16 +1,30 @@
-{
-  "teachers": [
-    {
-      "username": "admin",
-      "password": "123456",
-      "email": "admin@library.com",
-      "role": "Admin"
-    },
-    {
-      "username": "teacher1",
-      "password": "123456",
-      "email": "teacher1@school.com",
-      "role": "Teacher"
-    }
-  ]
-}
+[
+  {
+    "序号": 1,
+    "院系": "公共教学部",
+    "职务": "体育教师",
+    "姓名": "张三",
+    "username": "zhangsan"
+  },
+  {
+    "序号": 2,
+    "院系": "公共教学部",
+    "职务": "体育教师",
+    "姓名": "邓睿彬",
+    "username": "dengruibin"
+  },
+  {
+    "序号": 3,
+    "院系": "信息工程系",
+    "职务": "副教授",
+    "姓名": "李四",
+    "username": "lisi"
+  },
+  {
+    "序号": 4,
+    "院系": "经济管理系",
+    "职务": "讲师",
+    "姓名": "王五",
+    "username": "wangwu"
+  }
+]

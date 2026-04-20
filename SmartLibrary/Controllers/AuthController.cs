@@ -32,6 +32,9 @@ public class AuthController : ControllerBase
             Username = user.Username,
             Email = user.Email,
             Role = user.Role,
+            Department = user.Department,
+            Position = user.Position,
+            RealName = user.RealName,
             CreatedAt = user.CreatedAt
         };
         return Ok(ApiResponse<UserDto>.Success(result, "注册成功"));
@@ -58,6 +61,9 @@ public class AuthController : ControllerBase
             Username = user.Username,
             Email = user.Email,
             Role = user.Role,
+            Department = user.Department,
+            Position = user.Position,
+            RealName = user.RealName,
             CreatedAt = user.CreatedAt
         };
         return Ok(ApiResponse<UserDto>.Success(result));
@@ -74,6 +80,9 @@ public class AuthController : ControllerBase
 
         user.Email = request.Email;
         user.Role = request.Role;
+        user.Department = request.Department;
+        user.Position = request.Position;
+        user.RealName = request.RealName;
         if (!string.IsNullOrEmpty(request.Password))
         {
             user.Password = request.Password;
@@ -86,6 +95,9 @@ public class AuthController : ControllerBase
             Username = user.Username,
             Email = user.Email,
             Role = user.Role,
+            Department = user.Department,
+            Position = user.Position,
+            RealName = user.RealName,
             CreatedAt = user.CreatedAt
         };
         return Ok(ApiResponse<UserDto>.Success(result, "更新成功"));
@@ -105,6 +117,9 @@ public class RegisterRequest
     public string Password { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Role { get; set; } = "User";
+    public string? RealName { get; set; }
+    public string? Department { get; set; }
+    public string? Position { get; set; }
 }
 
 public class UpdateUserRequest
@@ -112,4 +127,7 @@ public class UpdateUserRequest
     public string Email { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty;
     public string? Password { get; set; }
+    public string? RealName { get; set; }
+    public string? Department { get; set; }
+    public string? Position { get; set; }
 }
