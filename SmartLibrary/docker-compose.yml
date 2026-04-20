@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  smartlibrary:
+    build: .
+    container_name: smartlibrary-app
+    ports:
+      - "800:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=mysql;Database=smartlibrary;User=root;Password=123456;
+      - Jwt__Secret=SmartLibrarySecretKey2024VeryLongSecretKey
+      - Jwt__Issuer=SmartLibrary
+      - Jwt__Audience=SmartLibrary
+    depends_on:
+      - mysql
+    networks:
+      - library-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: smartlibrary-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=smartlibrary
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - library-network
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql-data:
+
+networks:
+  library-network:
+    driver: bridge
